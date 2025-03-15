@@ -5,7 +5,10 @@ export const useUrl = (): string => {
 
   const injectContentScript = async () => {
     const [tab] = await chrome.tabs.query({ currentWindow: true, active: true });
-    setUrl(tab.url!);
+
+    const decodedUrl = decodeURIComponent(tab.url!);
+
+    setUrl(decodedUrl);
   };
 
   useEffect(() => {
