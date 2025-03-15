@@ -20,15 +20,15 @@ const packageJson = JSON.parse(readFileSync('./package.json', 'utf8'));
 const manifest = {
   manifest_version: 3,
   // default_locale: 'en',
-  name: '__MSG_extensionName__',
+  name: 'Url Parser by parameters',
   browser_specific_settings: {
     gecko: {
-      id: 'example@example.com',
+      id: 'khwoo8026@gmail.com',
       strict_min_version: '109.0',
     },
   },
   version: packageJson.version,
-  description: '__MSG_extensionDescription__',
+  description: 'An extension that parses URLs by parameters.',
   host_permissions: ['<all_urls>'],
   permissions: ['storage', 'scripting', 'tabs', 'notifications'],
   action: {
