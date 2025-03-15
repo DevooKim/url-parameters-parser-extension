@@ -335,15 +335,6 @@ importers:
         specifier: workspace:*
         version: link:../../packages/vite-config
 
-  pages/content-runtime:
-    devDependencies:
-      '@extension/tsconfig':
-        specifier: workspace:*
-        version: link:../../packages/tsconfig
-      '@extension/vite-config':
-        specifier: workspace:*
-        version: link:../../packages/vite-config
-
   pages/popup:
     dependencies:
       '@extension/i18n':

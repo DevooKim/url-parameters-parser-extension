@@ -31,10 +31,6 @@ const manifest = {
   description: '__MSG_extensionDescription__',
   host_permissions: ['<all_urls>'],
   permissions: ['storage', 'scripting', 'tabs', 'notifications'],
-  background: {
-    service_worker: 'background.js',
-    type: 'module',
-  },
   action: {
     default_popup: 'popup/index.html',
     default_icon: 'icon-34.png',
