@@ -37,6 +37,18 @@ describe('parseUrl', () => {
     });
   });
 
+  test('patterns에 맞게 URL을 파싱한다. - 파라미터가 여러개', () => {
+    const url = 'https://example.com/aaa/123/456/789';
+    const patterns = ['/aaa/:a-id/:aa-id/:aaa-id'];
+    const params = parseUrl(url, patterns);
+
+    expect(params).toEqual({
+      'a-id': '123',
+      'aa-id': '456',
+      'aaa-id': '789',
+    });
+  });
+
   test('패턴에 맞지 않는 URL은 빈 객체를 반환한다', () => {
     const params = parseUrl(defaultUrl);
 
