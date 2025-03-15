@@ -1,7 +1,6 @@
 import '@src/Popup.css';
 import { useStorage, useUrl, withErrorBoundary, withSuspense } from '@extension/shared';
 import { exampleThemeStorage } from '@extension/storage';
-import { t } from '@extension/i18n';
 import { ToggleButton } from '@extension/ui';
 
 const Popup = () => {

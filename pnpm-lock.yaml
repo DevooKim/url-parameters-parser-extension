@@ -219,16 +219,6 @@ importers:
         specifier: 8.18.0
         version: 8.18.0
 
-  packages/i18n:
-    dependencies:
-      '@extension/env':
-        specifier: workspace:*
-        version: link:../env
-    devDependencies:
-      '@extension/tsconfig':
-        specifier: workspace:*
-        version: link:../tsconfig
-
   packages/module-manager:
     devDependencies:
       '@extension/tsconfig':
@@ -337,9 +327,6 @@ importers:
 
   pages/popup:
     dependencies:
-      '@extension/i18n':
-        specifier: workspace:*
-        version: link:../../packages/i18n
       '@extension/shared':
         specifier: workspace:*
         version: link:../../packages/shared
