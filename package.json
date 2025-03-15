@@ -1,5 +1,5 @@
 {
-  "name": "url-parameters-parser",
+  "name": "url-parser-extension",
   "version": "0.0.1",
   "description": "parses URLs by parameters.",
   "license": "MIT",
@@ -7,7 +7,7 @@
   "sideEffects": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/Devookim/url-parameters-parser.git"
+    "url": "https://github.com/Devookim/url-parser-extension.git"
   },
   "type": "module",
   "scripts": {
