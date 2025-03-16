@@ -1,7 +1,6 @@
 import { parseUrl, useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
-import { exampleThemeStorage } from '@extension/storage';
+import { latestOptionNameStorage, settingStorage } from '@extension/storage';
 import {
-  Button,
   Card,
   CardContent,
   CopyButton,
@@ -19,28 +18,22 @@ import { ParsedItem } from './ParsedItem';
 const testUrl =
   'https://www.example.com/aaa/111/bbb/222/ccc/333/aaa/111/bbb/222/ccc/333/aaa/111/bbb/222/ccc/333/aaa/111/bbb/222/ccc/456';
 
-const testOptions = [
-  {
-    name: 'example',
-    hostname: 'www.example.com',
-    patterns: ['/aaa/:a-id', '/bbb/:b-id', '/ccc/:c-id'],
-  },
-  {
-    name: 'example2',
-    hostname: 'www.example.com',
-    patterns: ['/aaa/:a-id'],
-  },
-];
-
 const Popup = () => {
-  const theme = useStorage(exampleThemeStorage);
-  const isLight = theme === 'light';
-  const [optionName, setOptionName] = useState('example');
+  const settings = useStorage(settingStorage);
+  const latestOptionName = useStorage(latestOptionNameStorage);
+  const [optionName, setOptionName] = useState(
+    settings.some(option => option.name === latestOptionName) ? latestOptionName : settings[0].name,
+  );
   const { className: buttonClassName, handleSuccess, handleFail } = useButtonClassName();
 
-  const options = testOptions;
+  const options = settings;
 
   const option = options.find(option => option.name === optionName);
+
+  const handleOptionChange = (optionName: string) => {
+    setOptionName(optionName);
+    latestOptionNameStorage.set(optionName);
+  };
 
   // const url = useUrl();
   const url = testUrl;
@@ -61,7 +54,7 @@ const Popup = () => {
       <Separator />
 
       <CardContent className="flex flex-col items-center justify-between gap-1 p-0">
-        <Select value={optionName} onValueChange={setOptionName}>
+        <Select value={optionName} onValueChange={handleOptionChange}>
           <SelectTrigger>
             <SelectValue />
           </SelectTrigger>
