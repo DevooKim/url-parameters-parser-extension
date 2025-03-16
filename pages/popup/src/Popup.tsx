@@ -1,6 +1,7 @@
 import { parseUrl, useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import { exampleThemeStorage } from '@extension/storage';
 import {
+  Button,
   Card,
   CardContent,
   CopyButton,
