@@ -9,6 +9,7 @@
 ## Table Of Contents
 - [Table Of Contents](#table-of-contents)
 - [Intro](#intro)
+- [Install](#install)
 - [Features](#features)
 - [Options](#options)
 - [TODO](#todo)
@@ -28,6 +29,8 @@ result : { "a_id": 111, "b_id": 222, "c_id": 333 }
 <img width="422" alt="image" src="https://github.com/user-attachments/assets/de984925-5d55-4720-93eb-ae91bd19952f" />
 
 
+## Install
+[Download Zip](https://github.com/user-attachments/files/19274687/extension-20250316-200153.zip)
 
 ## Features
 - [base on](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/tree/0.4.3?tab=readme-ov-file#features)
