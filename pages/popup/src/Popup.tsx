@@ -1,4 +1,4 @@
-import { parseUrl, useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
+import { parseUrl, useStorage, useUrl, withErrorBoundary, withSuspense } from '@extension/shared';
 import { latestOptionNameStorage, settingStorage } from '@extension/storage';
 import {
   Card,
@@ -15,9 +15,6 @@ import {
 import { useState } from 'react';
 import { ParsedItem } from './ParsedItem';
 
-const testUrl =
-  'https://www.example.com/aaa/111/bbb/222/ccc/333/aaa/111/bbb/222/ccc/333/aaa/111/bbb/222/ccc/333/aaa/111/bbb/222/ccc/456';
-
 const Popup = () => {
   const settings = useStorage(settingStorage);
   const latestOptionName = useStorage(latestOptionNameStorage);
@@ -26,17 +23,14 @@ const Popup = () => {
   );
   const { className: buttonClassName, handleSuccess, handleFail } = useButtonClassName();
 
-  const options = settings;
-
-  const option = options.find(option => option.name === optionName);
+  const option = settings.find(option => option.name === optionName);
 
   const handleOptionChange = (optionName: string) => {
     setOptionName(optionName);
     latestOptionNameStorage.set(optionName);
   };
 
-  // const url = useUrl();
-  const url = testUrl;
+  const url = useUrl();
   const patterns = option?.patterns || [];
 
   const parsedUrl = parseUrl(url, patterns);
@@ -59,7 +53,7 @@ const Popup = () => {
             <SelectValue />
           </SelectTrigger>
           <SelectContent position="popper">
-            {options.map(option => (
+            {settings.map(option => (
               <SelectItem key={option.name} value={option.name}>
                 {option.name}
               </SelectItem>

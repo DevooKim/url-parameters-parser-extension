@@ -109,7 +109,7 @@ export const Item: React.FC<ItemProps> = ({ sequence, editMode, editModeEnable, 
   };
 
   return (
-    <Card className="flex flex-col w-full max-w-2xl gap-4 p-4 drop-shadow-md">
+    <Card className="flex flex-col w-full gap-4 p-4 drop-shadow-md">
       <div className="flex flex-row items-center justify-between">
         <Button className="bg-red-500" onClick={handleDeleteItem} disabled={!enableDelete} size="sm">
           <X />

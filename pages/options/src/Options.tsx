@@ -4,34 +4,6 @@ import { Item } from './Item';
 import { useState } from 'react';
 import { Button } from '@extension/ui';
 
-const testOptions = [
-  {
-    name: 'example',
-    hostname: 'www.example.com',
-    patterns: ['/aaa/:a-id', '/bbb/:b-id', '/ccc/:c-id'],
-  },
-  {
-    name: 'example2',
-    hostname: 'www.example.com',
-    patterns: ['/aaa/:a-id'],
-  },
-  {
-    name: 'example3',
-    hostname: 'www.example.com',
-    patterns: ['/aaa/:a-id'],
-  },
-  {
-    name: 'example4',
-    hostname: 'www.example.com',
-    patterns: ['/aaa/:a-id'],
-  },
-  {
-    name: 'example5',
-    hostname: 'www.example.com',
-    patterns: ['/aaa/:a-id'],
-  },
-];
-
 const Options = () => {
   const [editModeSequence, setEditModeSequence] = useState<number>(-1);
   const editModeEnable = (sequence: number) => {
@@ -48,28 +20,28 @@ const Options = () => {
   };
 
   return (
-    <div className="w-screen h-screen text-center">
-      <button onClick={() => settingStorage.update(testOptions)}>update setting</button>
+    <div className="w-screen h-screen px-10 py-8 text-center">
+      <div className="flex flex-col gap-8">
+        <h1 className="text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-5xl">Settings</h1>
+        <div className="flex flex-col items-center gap-8">
+          {settings.map((setting, rootIndex) => {
+            return (
+              <Item
+                key={`${setting.name}-${rootIndex}`}
+                sequence={rootIndex}
+                editMode={editModeSequence === rootIndex}
+                editModeEnable={() => editModeEnable(rootIndex)}
+                editModeDisable={editModeDisable}
+                enableDelete={editModeSequence === -1}
+              />
+            );
+          })}
+        </div>
 
-      <h1 className="text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-5xl">Settings</h1>
-      <div className="flex flex-col items-center gap-8">
-        {settings.map((setting, rootIndex) => {
-          return (
-            <Item
-              key={`${setting.name}-${rootIndex}`}
-              sequence={rootIndex}
-              editMode={editModeSequence === rootIndex}
-              editModeEnable={() => editModeEnable(rootIndex)}
-              editModeDisable={editModeDisable}
-              enableDelete={editModeSequence === -1}
-            />
-          );
-        })}
+        <Button variant="ghost" onClick={appendItem}>
+          Add Item
+        </Button>
       </div>
-
-      <Button variant="ghost" onClick={appendItem}>
-        Add Item
-      </Button>
     </div>
   );
 };
