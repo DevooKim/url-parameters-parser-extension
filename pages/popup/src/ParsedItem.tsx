@@ -14,7 +14,7 @@ export const ParsedItem = ({
 
   return (
     <div className="flex items-center justify-between w-full rounded-md hover:bg-zinc-100">
-      <span className="mr-2 text-sm truncate">
+      <span className="text-base truncate">
         {key} : {value}
       </span>
       <CopyButton
