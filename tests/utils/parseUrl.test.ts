@@ -54,15 +54,10 @@ describe('parseUrl', () => {
 
     expect(params).toEqual({});
   });
+  test('URL이 없을 때 빈 객체를 반환한다', () => {
+    const params = parseUrl();
 
-  test('URL이 없을 때 예외를 처리한다', () => {
-    try {
-      parseUrl();
-      // 여기까지 도달하면 테스트 실패
-      assert.fail('URL이 없는데도 예외가 발생하지 않았습니다');
-    } catch (error) {
-      expect(error).toBeDefined();
-    }
+    expect(params).toEqual({});
   });
 
   test('잘못된 형식의 URL에 대해 예외를 처리한다', () => {

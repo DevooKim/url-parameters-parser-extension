@@ -1,7 +1,10 @@
 export const parseUrl = (url?: string, patterns: string[] = []) => {
+  // 파라미터를 저장할 객체
+  const params: Record<string, string> = {};
+
   // 기본 URL 설정
   if (!url) {
-    throw new Error('URL이 제공되지 않았습니다.');
+    return params;
   }
 
   // URL 파싱하여 pathname 추출
@@ -10,9 +13,6 @@ export const parseUrl = (url?: string, patterns: string[] = []) => {
 
   // 경로 세그먼트로 분리
   const pathSegments = pathname.split('/').filter(segment => segment !== '');
-
-  // 파라미터를 저장할 객체
-  const params: Record<string, string> = {};
 
   // 이미 처리된 세그먼트를 추적
   const processedSegments = new Set<number>();
