@@ -59,7 +59,7 @@ const Popup = () => {
       </CardContent>
       <Separator />
 
-      <CardContent className="flex flex-col items-center justify-between gap-3 p-0">
+      <CardContent className="flex flex-col items-center justify-between gap-1 p-0">
         <Select value={optionName} onValueChange={setOptionName}>
           <SelectTrigger>
             <SelectValue />
@@ -73,15 +73,15 @@ const Popup = () => {
           </SelectContent>
         </Select>
 
-        <div>{JSON.stringify(patterns)}</div>
+        <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs font-semibold">
+          {JSON.stringify(patterns)}
+        </code>
       </CardContent>
       <Separator />
-      <CardContent className="p-0">
-        <div className="flex flex-col items-center justify-between gap-1">
-          {Object.entries(parsedUrl).map(([key, value]) => (
-            <ParsedItem key={key} item={{ key, value }} />
-          ))}
-        </div>
+      <CardContent className="flex flex-col items-center justify-between gap-1 p-0">
+        {Object.entries(parsedUrl).map(([key, value]) => (
+          <ParsedItem key={key} item={{ key, value }} />
+        ))}
       </CardContent>
     </Card>
   );
