@@ -17,6 +17,9 @@ patterns: ["/aaa/:a_id", "/bbb:b_id", "/ccc:c_id"]
 
 result : { "a_id": 111, "b_id": 222, "c_id": 333 }
 ```
+<img width="422" alt="image" src="https://github.com/user-attachments/assets/de984925-5d55-4720-93eb-ae91bd19952f" />
+
+
 
 ## Features
 - [base on](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/tree/0.4.3?tab=readme-ov-file#features)
@@ -44,6 +47,7 @@ result : { "a_id": 111, "b_id": 222, "c_id": 333 }
 - [ ] Automatically select options that match the hostname
 - [ ] Dark Theme
 - [ ] i18n
+- [ ] fancy UI
 
 
 
