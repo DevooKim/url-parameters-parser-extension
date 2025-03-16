@@ -1,7 +1,7 @@
 import '@src/Popup.css';
 import { parseUrl, useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import { exampleThemeStorage } from '@extension/storage';
-import { CopyButton } from '@extension/ui';
+import { Button, CopyButton } from '@extension/ui';
 import { useState } from 'react';
 
 const testUrl = 'https://www.example.com/aaa/111/bbb/222/ccc/333';
@@ -47,6 +47,7 @@ const Popup = () => {
       </ul>
 
       <h3>{copySuccess}</h3>
+      <Button variant="destructive">hello</Button>
     </div>
   );
 };
