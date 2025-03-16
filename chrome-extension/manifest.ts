@@ -20,6 +20,7 @@ const packageJson = JSON.parse(readFileSync('./package.json', 'utf8'));
 const manifest = {
   manifest_version: 3,
   name: 'Url Parser by parameters',
+  default_locale: 'en',
   browser_specific_settings: {
     gecko: {
       id: 'khwoo8026@gmail.com',

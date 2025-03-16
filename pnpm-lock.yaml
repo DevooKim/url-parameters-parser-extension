@@ -222,6 +222,16 @@ importers:
         specifier: 8.18.0
         version: 8.18.0
 
+  packages/i18n:
+    dependencies:
+      '@extension/env':
+        specifier: workspace:*
+        version: link:../env
+    devDependencies:
+      '@extension/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+
   packages/module-manager:
     devDependencies:
       '@extension/tsconfig':
@@ -258,6 +268,9 @@ importers:
 
   packages/ui:
     dependencies:
+      '@extension/i18n':
+        specifier: workspace:*
+        version: link:../i18n
       '@extension/shared':
         specifier: workspace:*
         version: link:../shared
@@ -351,6 +364,9 @@ importers:
 
   pages/options:
     dependencies:
+      '@extension/i18n':
+        specifier: workspace:*
+        version: link:../../packages/i18n
       '@extension/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -373,6 +389,9 @@ importers:
 
   pages/popup:
     dependencies:
+      '@extension/i18n':
+        specifier: workspace:*
+        version: link:../../packages/i18n
       '@extension/shared':
         specifier: workspace:*
         version: link:../../packages/shared
