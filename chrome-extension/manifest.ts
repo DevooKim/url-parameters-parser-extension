@@ -19,7 +19,6 @@ const packageJson = JSON.parse(readFileSync('./package.json', 'utf8'));
  */
 const manifest = {
   manifest_version: 3,
-  // default_locale: 'en',
   name: 'Url Parser by parameters',
   browser_specific_settings: {
     gecko: {
@@ -55,6 +54,7 @@ const manifest = {
       matches: ['*://*/*'],
     },
   ],
+  options_page: 'options/index.html',
 } satisfies chrome.runtime.ManifestV3;
 
 export default manifest;
