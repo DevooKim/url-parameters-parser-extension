@@ -26,7 +26,7 @@ const Options = () => {
         <img src={chrome.runtime.getURL(logo)} className="w-10 pointer-events-none" alt="logo" />
 
         <h1 className="text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-5xl">Settings</h1>
-        <div className="flex flex-col items-center gap-8">
+        <div className="flex flex-col items-center w-full gap-8 ">
           {settings.map((setting, rootIndex) => {
             return (
               <Item
