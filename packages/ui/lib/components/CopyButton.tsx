@@ -13,11 +13,11 @@ const useButtonClassName = () => {
   const { isActive, reset } = useTimeout(() => setClassName(''), 1000);
 
   const handleSuccess = () => {
-    setClassName('bg-green-600 text-white hover:bg-green-600 hover:text-white');
+    setClassName('bg-green-500 text-white hover:bg-green-500 hover:text-white');
     reset();
   };
   const handleFail = () => {
-    setClassName('bg-red-600 text-white hover:bg-red-600 hover:text-white');
+    setClassName('bg-red-500 text-white hover:bg-red-500 hover:text-white');
     reset();
   };
 
