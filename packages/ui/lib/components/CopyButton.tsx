@@ -1,7 +1,7 @@
 import { copyToClipboard } from '@extension/shared';
 import type { ComponentPropsWithoutRef } from 'react';
 import { Button } from '@ui';
-import { Copy } from '@mynaui/icons-react';
+import { Copy } from 'lucide-react';
 
 type CopyButtonProps = ComponentPropsWithoutRef<'button'> & {
   onSuccessCopy?: () => void;
@@ -29,17 +29,9 @@ export const CopyButton = ({ className, children, onSuccessCopy, onFailCopy, ...
   };
 
   return (
-    <Button size="icon" variant="outline" className={className} onClick={onCopy} {...props}>
+    <Button size={children ? 'sm' : 'icon'} variant="outline" className={className} onClick={onCopy} {...props}>
+      {children}
       <Copy />
     </Button>
-  );
-
-  return (
-    <button
-      className={`py-1 px-4 rounded shadow hover:scale-105 bg-white text-black border-black mt-4 border-2 font-bold ${className}`}
-      onClick={onCopy}
-      {...props}>
-      {children}
-    </button>
   );
 };
