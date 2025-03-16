@@ -1,5 +1,5 @@
-import { copyToClipboard } from '@extension/shared';
-import type { ComponentPropsWithoutRef } from 'react';
+import { copyToClipboard, useTimeout } from '@extension/shared';
+import { useState, type ComponentPropsWithoutRef } from 'react';
 import { Button } from '@ui';
 import { Copy } from 'lucide-react';
 
@@ -8,7 +8,28 @@ type CopyButtonProps = ComponentPropsWithoutRef<'button'> & {
   onFailCopy?: () => void;
 };
 
-export const CopyButton = ({ className, children, onSuccessCopy, onFailCopy, ...props }: CopyButtonProps) => {
+const useButtonClassName = () => {
+  const [className, setClassName] = useState('');
+  const { isActive, reset } = useTimeout(() => setClassName(''), 1000);
+
+  const handleSuccess = () => {
+    setClassName('bg-green-600 text-white hover:bg-green-600 hover:text-white');
+    reset();
+  };
+  const handleFail = () => {
+    setClassName('bg-red-600 text-white hover:bg-red-600 hover:text-white');
+    reset();
+  };
+
+  return {
+    className,
+    handleSuccess,
+    handleFail,
+    isActive,
+  };
+};
+
+const CopyButton = ({ className, children, onSuccessCopy, onFailCopy, ...props }: CopyButtonProps) => {
   const onCopy = (event: React.MouseEvent<HTMLButtonElement>) => {
     const value = event.currentTarget.value;
     copyToClipboard(value)
@@ -35,3 +56,5 @@ export const CopyButton = ({ className, children, onSuccessCopy, onFailCopy, ...
     </Button>
   );
 };
+
+export { CopyButton, useButtonClassName };

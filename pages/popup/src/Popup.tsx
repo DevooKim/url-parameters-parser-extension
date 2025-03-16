@@ -1,8 +1,7 @@
-import { parseUrl, useStorage, useTimeout, withErrorBoundary, withSuspense } from '@extension/shared';
+import { parseUrl, useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import { exampleThemeStorage } from '@extension/storage';
-import { Card, CardContent, CardHeader, cn, CopyButton, Separator } from '@extension/ui';
+import { Card, CardContent, CardHeader, cn, CopyButton, Separator, useButtonClassName } from '@extension/ui';
 import { useState } from 'react';
-import { CircleCheck } from 'lucide-react';
 
 const testUrl =
   'https://www.example.com/aaa/111/bbb/222/ccc/333/aaa/111/bbb/222/ccc/333/aaa/111/bbb/222/ccc/333/aaa/111/bbb/222/ccc/456';
@@ -15,35 +14,6 @@ const testOptions = [
   },
 ];
 
-const useStatus = () => {
-  const [isSuccess, setIsSuccess] = useState(false);
-  const { isActive, reset } = useTimeout(() => {}, 1000);
-
-  const handleSuccess = () => {
-    setIsSuccess(true);
-    reset();
-  };
-  const handleFail = () => {
-    setIsSuccess(false);
-    reset();
-  };
-
-  return {
-    isSuccess,
-    handleSuccess,
-    handleFail,
-    isActive,
-  };
-};
-
-const StatusCheckIcon = ({ isSuccess, className }: { isSuccess: boolean; className?: string }) => {
-  return (
-    <div className={cn(isSuccess ? 'text-green-600' : 'text-red-600', className)}>
-      <CircleCheck />
-    </div>
-  );
-};
-
 const ParsedItem = ({
   item,
 }: {
@@ -52,19 +22,21 @@ const ParsedItem = ({
     value: string;
   };
 }) => {
-  const { isActive, isSuccess, handleSuccess, handleFail } = useStatus();
+  const { className: buttonClassName, handleSuccess, handleFail } = useButtonClassName();
 
   const { key, value } = item;
 
   return (
-    <div className="flex items-center justify-between w-full rounded-md hover:bg-zinc-200">
+    <div className="flex items-center justify-between w-full rounded-md hover:bg-zinc-100">
       <span className="mr-2 text-sm truncate">
         {key} : {value}
       </span>
-      <div className="flex items-center gap-1">
-        {isActive && <StatusCheckIcon isSuccess={isSuccess} />}
-        <CopyButton value={value} onSuccessCopy={handleSuccess} onFailCopy={handleFail} className="w-8 h-8 shrink-0" />
-      </div>
+      <CopyButton
+        value={value}
+        onSuccessCopy={handleSuccess}
+        onFailCopy={handleFail}
+        className={cn('w-8 h-8 shrink-0', buttonClassName)}
+      />
     </div>
   );
 };
@@ -73,7 +45,8 @@ const Popup = () => {
   const theme = useStorage(exampleThemeStorage);
   const isLight = theme === 'light';
   const [optionName, setOptionName] = useState('example');
-  const { isActive, isSuccess, handleSuccess, handleFail } = useStatus();
+  // const { isActive, isSuccess, handleSuccess, handleFail } = useStatus();
+  const { className: buttonClassName, handleSuccess, handleFail } = useButtonClassName();
 
   const option = testOptions.find(option => option.name === optionName);
 
@@ -89,12 +62,9 @@ const Popup = () => {
         <div className="w-full">
           <p className="text-sm font-medium break-all">{url}</p>
         </div>
-        <div className="flex items-center justify-center w-full gap-1">
-          <StatusCheckIcon isSuccess={isSuccess} className={cn(isActive ? 'block' : 'hidden')} />
-          <CopyButton value={url} onSuccessCopy={handleSuccess} onFailCopy={handleFail}>
-            복사하기
-          </CopyButton>
-        </div>
+        <CopyButton value={url} onSuccessCopy={handleSuccess} onFailCopy={handleFail} className={buttonClassName}>
+          복사하기
+        </CopyButton>
       </CardHeader>
       <Separator />
       <CardContent className="p-0">
