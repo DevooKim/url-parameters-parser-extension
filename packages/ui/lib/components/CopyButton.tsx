@@ -1,5 +1,7 @@
 import { copyToClipboard } from '@extension/shared';
 import type { ComponentPropsWithoutRef } from 'react';
+import { Button } from '@ui';
+import { Copy } from '@mynaui/icons-react';
 
 type CopyButtonProps = ComponentPropsWithoutRef<'button'> & {
   onSuccessCopy?: () => void;
@@ -25,6 +27,12 @@ export const CopyButton = ({ className, children, onSuccessCopy, onFailCopy, ...
         }
       });
   };
+
+  return (
+    <Button size="icon" variant="outline" className={className} onClick={onCopy} {...props}>
+      <Copy />
+    </Button>
+  );
 
   return (
     <button

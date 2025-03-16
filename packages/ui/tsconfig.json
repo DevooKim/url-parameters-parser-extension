@@ -4,7 +4,8 @@
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@ui": ["./lib/components/ui/index"]
     },
     "noEmit": false,
     "declaration": true

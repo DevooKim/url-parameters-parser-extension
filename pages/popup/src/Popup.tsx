@@ -39,9 +39,7 @@ const Popup = () => {
         {Object.entries(parsedUrl).map(([key, value]) => (
           <li key={key}>
             <span className="text-blue-500">{key}</span>: {value}
-            <CopyButton value={value} onSuccessCopy={handleSuccessCopy} onFailCopy={handleFailCopy}>
-              Copy {key}
-            </CopyButton>
+            <CopyButton value={value} onSuccessCopy={handleSuccessCopy} onFailCopy={handleFailCopy} />
           </li>
         ))}
       </ul>
