@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@mynaui/icons-react':
+        specifier: ^0.3.3
+        version: 0.3.3(react@19.0.0)
       postcss:
         specifier: ^8.5.3
         version: 8.5.3
@@ -261,6 +264,9 @@ importers:
       '@extension/storage':
         specifier: workspace:*
         version: link:../storage
+      '@mynaui/icons-react':
+        specifier: ^0.3.3
+        version: 0.3.3(react@19.0.0)
       '@radix-ui/react-slot':
         specifier: ^1.1.2
         version: 1.1.2(@types/react@19.0.10)(react@19.0.0)
@@ -1020,6 +1026,11 @@ packages:
     resolution: {integrity: sha512-pdIRW/PiJkuM7/OObjGBGfQmsWetmVObeez6uwT3nhP5cu2zT0L5QELq69caWD/v3QlPY3CPXVN0kZrzQzdvsQ==}
     peerDependencies:
       vite: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0
+
+  '@mynaui/icons-react@0.3.3':
+    resolution: {integrity: sha512-vUA7T9xlPrFrXnApTb5Jdm9rbFKpENAL4cgXEmY+CpWOth+y4vdmw2gp3xGJ4Fhjpw+N4WH+yErHIoNzUD9HhA==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
 
   '@noble/ciphers@1.2.1':
     resolution: {integrity: sha512-rONPWMC7PeExE077uLE4oqWrZ1IvAfz3oH9LibVAcVCopJiA9R62uavnbEzdkVmJYI6M6Zgkbeb07+tWjlq2XA==}
@@ -5712,6 +5723,11 @@ snapshots:
       mrmime: 1.0.1
       semver: 7.7.1
       vite: 6.2.2(@types/node@22.13.10)(jiti@2.4.2)(lightningcss@1.29.2)(sass@1.79.4)(terser@5.39.0)(tsx@4.19.3)(yaml@2.7.0)
+
+  '@mynaui/icons-react@0.3.3(react@19.0.0)':
+    dependencies:
+      prop-types: 15.8.1
+      react: 19.0.0
 
   '@noble/ciphers@1.2.1': {}
 
