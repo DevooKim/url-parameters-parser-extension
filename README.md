@@ -48,6 +48,7 @@ result : { "a_id": 111, "b_id": 222, "c_id": 333 }
 - [ ] Dark Theme
 - [ ] i18n
 - [ ] fancy UI
+- [ ] github action - release builder
 
 
 
