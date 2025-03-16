@@ -1,7 +1,8 @@
 import { parseUrl, useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import { exampleThemeStorage } from '@extension/storage';
-import { Card, CardContent, CardHeader, cn, CopyButton, Separator, useButtonClassName } from '@extension/ui';
+import { Card, CardContent, CardHeader, CopyButton, Separator, useButtonClassName } from '@extension/ui';
 import { useState } from 'react';
+import { ParsedItem } from './ParsedItem';
 
 const testUrl =
   'https://www.example.com/aaa/111/bbb/222/ccc/333/aaa/111/bbb/222/ccc/333/aaa/111/bbb/222/ccc/333/aaa/111/bbb/222/ccc/456';
@@ -14,38 +15,10 @@ const testOptions = [
   },
 ];
 
-const ParsedItem = ({
-  item,
-}: {
-  item: {
-    key: string;
-    value: string;
-  };
-}) => {
-  const { className: buttonClassName, handleSuccess, handleFail } = useButtonClassName();
-
-  const { key, value } = item;
-
-  return (
-    <div className="flex items-center justify-between w-full rounded-md hover:bg-zinc-100">
-      <span className="mr-2 text-sm truncate">
-        {key} : {value}
-      </span>
-      <CopyButton
-        value={value}
-        onSuccessCopy={handleSuccess}
-        onFailCopy={handleFail}
-        className={cn('w-8 h-8 shrink-0', buttonClassName)}
-      />
-    </div>
-  );
-};
-
 const Popup = () => {
   const theme = useStorage(exampleThemeStorage);
   const isLight = theme === 'light';
   const [optionName, setOptionName] = useState('example');
-  // const { isActive, isSuccess, handleSuccess, handleFail } = useStatus();
   const { className: buttonClassName, handleSuccess, handleFail } = useButtonClassName();
 
   const option = testOptions.find(option => option.name === optionName);
