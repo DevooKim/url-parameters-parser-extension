@@ -19,7 +19,7 @@ const Popup = () => {
   const settings = useStorage(settingStorage);
   const latestOptionName = useStorage(latestOptionNameStorage);
   const [optionName, setOptionName] = useState(
-    settings.some(option => option.name === latestOptionName) ? latestOptionName : settings[0].name,
+    settings.some(option => option.name === latestOptionName) ? latestOptionName : settings[0]?.name,
   );
   const { className: buttonClassName, handleSuccess, handleFail } = useButtonClassName();
 
