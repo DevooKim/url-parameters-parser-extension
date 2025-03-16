@@ -14,6 +14,7 @@ const Options = () => {
   };
 
   const settings = useStorage(settingStorage);
+  const logo = 'options/logo.svg';
 
   const appendItem = async () => {
     await settingStorage.append();
@@ -21,7 +22,9 @@ const Options = () => {
 
   return (
     <div className="w-screen h-screen px-10 py-8 text-center">
-      <div className="flex flex-col gap-8">
+      <div className="flex flex-col items-center gap-8">
+        <img src={chrome.runtime.getURL(logo)} className="w-10 pointer-events-none" alt="logo" />
+
         <h1 className="text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-5xl">Settings</h1>
         <div className="flex flex-col items-center gap-8">
           {settings.map((setting, rootIndex) => {
