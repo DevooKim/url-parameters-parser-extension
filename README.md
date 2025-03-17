@@ -29,7 +29,7 @@ result : { "a_id": 111, "b_id": 222, "c_id": 333 }
 <img width="422" alt="image" src="https://github.com/user-attachments/assets/de984925-5d55-4720-93eb-ae91bd19952f" />
 
 ## Install
-[Download Zip]([https://github.com/user-attachments/files/19291059/extension-20250316-200153.zip](https://github.com/user-attachments/files/19291156/extension-20250317-160838.zip))
+[Download Zip](https://github.com/user-attachments/files/19291185/extension-20250317-160838.zip)
 
 ## Features
 - [base on](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/tree/0.4.3?tab=readme-ov-file#features)
