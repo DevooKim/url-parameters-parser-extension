@@ -30,7 +30,7 @@ result : { "a_id": 111, "b_id": 222, "c_id": 333 }
 
 
 ## Install
-[Download Zip](https://github.com/user-attachments/files/19274687/extension-20250316-200153.zip)
+[Download Zip](https://github.com/user-attachments/files/19291059/extension-20250316-200153.zip)
 
 ## Features
 - [base on](https://github.com/Jonghakseo/chrome-extension-boilerplate-react-vite/tree/0.4.3?tab=readme-ov-file#features)
@@ -54,12 +54,13 @@ result : { "a_id": 111, "b_id": 222, "c_id": 333 }
 ## TODO
 - [ ] Button to go to the options page
 - [ ] Save with keystrokes on the Options page
-- [ ] Export/Import options
+- [x] Export/Import options
 - [ ] Automatically select options that match the hostname
 - [ ] Dark Theme
 - [ ] i18n
 - [ ] fancy UI
 - [ ] github action - release builder
+- [ ] validate import file
 
 
 
