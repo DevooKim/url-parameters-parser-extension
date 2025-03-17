@@ -8,8 +8,8 @@ export type Setting = {
 };
 
 type SettingStorage = BaseStorage<Setting[]> & {
-  append: () => Promise<void>;
-  update: (setting: Setting[]) => Promise<void>;
+  append: (settings?: Setting[]) => Promise<void>;
+  update: (settings: Setting[]) => Promise<void>;
   saveByIndex: (index: number, setting: Setting) => Promise<void>;
   deleteByIndex: (index: number) => Promise<void>;
 };
@@ -21,16 +21,18 @@ const storage = createStorage<Setting[]>('setting-storage-key', [], {
 
 export const settingStorage: SettingStorage = {
   ...storage,
-  append: async () => {
-    const settings = await storage.get();
+  append: async _settings => {
+    const currentSettings = await storage.get();
 
     const defaultSetting: Setting = {
-      name: `item-${settings.length}`,
+      name: `item-${currentSettings.length}`,
       hostname: '',
       patterns: [''],
     };
 
-    await storage.set([...settings, defaultSetting]);
+    const settings = Array.isArray(_settings) ? _settings : [defaultSetting];
+
+    await storage.set([...currentSettings, ...settings]);
   },
   update: async (settings: Setting[]) => {
     if (!Array.isArray(settings)) {

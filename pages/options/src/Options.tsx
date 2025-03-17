@@ -2,7 +2,8 @@ import { useStorage, withErrorBoundary, withSuspense } from '@extension/shared';
 import { settingStorage } from '@extension/storage';
 import { Item } from './Item';
 import { useState } from 'react';
-import { Button } from '@extension/ui';
+import { Button, Separator } from '@extension/ui';
+import { Upload } from './Upload';
 
 const Options = () => {
   const [editModeSequence, setEditModeSequence] = useState<number>(-1);
@@ -21,8 +22,8 @@ const Options = () => {
   };
 
   return (
-    <div className="w-screen h-screen px-10 py-8 text-center">
-      <div className="flex flex-col items-center gap-8">
+    <div className="min-w-120 px-10 py-8 text-center flex items-center justify-center flex-col">
+      <div className="flex flex-col items-center gap-8 max-w-3xl w-full">
         <img src={chrome.runtime.getURL(logo)} className="w-10 pointer-events-none" alt="logo" />
 
         <h1 className="text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-5xl">Settings</h1>
@@ -44,6 +45,10 @@ const Options = () => {
         <Button variant="ghost" onClick={appendItem}>
           Add Item
         </Button>
+
+        <Separator className="w-full" />
+
+        <Upload />
       </div>
     </div>
   );

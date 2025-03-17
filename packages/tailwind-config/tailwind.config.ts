@@ -6,6 +6,10 @@ export default {
       fontFamily: {
         Pretendard: ['Pretendard', 'sans-serif'],
       },
+      spacing: {
+        '120': '30rem',
+        '128': '32rem',
+      },
     },
   },
   plugins: [],
