@@ -7,4 +7,5 @@ export const baseEnv =
 
 export const dynamicEnvValues = {
   CEB_NODE_ENV: baseEnv.CEB_DEV === 'true' ? 'development' : 'production',
+  CEB_APP_KEY: baseEnv.CEB_APP_KEY || '',
 } as const;

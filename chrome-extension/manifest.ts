@@ -56,6 +56,7 @@ const manifest = {
     },
   ],
   options_page: 'options/index.html',
+  key: process.env['CEB_APP_KEY'],
 } satisfies chrome.runtime.ManifestV3;
 
 export default manifest;
