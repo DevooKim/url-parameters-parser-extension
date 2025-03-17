@@ -4,6 +4,7 @@ import { Item } from './Item';
 import { useState } from 'react';
 import { Button, Separator } from '@extension/ui';
 import { Upload } from './Upload';
+import { Download } from './Download';
 
 const Options = () => {
   const [editModeSequence, setEditModeSequence] = useState<number>(-1);
@@ -25,8 +26,16 @@ const Options = () => {
     <div className="min-w-120 px-10 py-8 text-center flex items-center justify-center flex-col">
       <div className="flex flex-col items-center gap-8 max-w-3xl w-full">
         <img src={chrome.runtime.getURL(logo)} className="w-10 pointer-events-none" alt="logo" />
+        <div className="grid grid-cols-3 items-center w-full">
+          <div></div>
+          <h1 className="text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-5xl justify-self-center">
+            Settings
+          </h1>
+          <div className="justify-self-end">
+            <Download />
+          </div>
+        </div>
 
-        <h1 className="text-4xl font-extrabold tracking-tight scroll-m-20 lg:text-5xl">Settings</h1>
         <div className="flex flex-col items-center w-full gap-8 ">
           {settings.map((setting, rootIndex) => {
             return (
