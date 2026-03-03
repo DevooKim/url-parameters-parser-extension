@@ -69,4 +69,27 @@ describe('parseUrl', () => {
       expect(error).toBeDefined();
     }
   });
+
+  test('쿼리스트링이 있으면 파라미터를 파싱한다', () => {
+    const url = 'https://example.com/users/123?tab=profile&sort=desc';
+    const patterns = ['/users/:userId'];
+    const params = parseUrl(url, patterns);
+
+    expect(params).toEqual({
+      userId: '123',
+      tab: 'profile',
+      sort: 'desc',
+    });
+  });
+
+  test('동일한 키가 있으면 path 파라미터를 우선한다', () => {
+    const url = 'https://example.com/users/123?userId=456&tab=profile';
+    const patterns = ['/users/:userId'];
+    const params = parseUrl(url, patterns);
+
+    expect(params).toEqual({
+      userId: '123',
+      tab: 'profile',
+    });
+  });
 });

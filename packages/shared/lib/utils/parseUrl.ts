@@ -7,7 +7,7 @@ export const parseUrl = (url?: string, patterns: string[] = []) => {
     return params;
   }
 
-  // URL 파싱하여 pathname 추출
+  // URL 파싱하여 pathname, query 추출
   const parsedUrl = new URL(url);
   const pathname = decodeURI(parsedUrl.pathname);
 
@@ -71,6 +71,13 @@ export const parseUrl = (url?: string, patterns: string[] = []) => {
         // 이 패턴에 대한 처리 완료
         break;
       }
+    }
+  }
+
+  // 쿼리스트링 파라미터를 병합
+  for (const [key, value] of parsedUrl.searchParams.entries()) {
+    if (!(key in params)) {
+      params[key] = value;
     }
   }
 
