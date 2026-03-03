@@ -82,6 +82,16 @@ describe('parseUrl', () => {
     });
   });
 
+  test('옵션으로 쿼리스트링 제외가 가능하다', () => {
+    const url = 'https://example.com/users/123?tab=profile';
+    const patterns = ['/users/:userId'];
+    const params = parseUrl(url, patterns, { includeQuery: false });
+
+    expect(params).toEqual({
+      userId: '123',
+    });
+  });
+
   test('동일한 키가 있으면 path 파라미터를 우선한다', () => {
     const url = 'https://example.com/users/123?userId=456&tab=profile';
     const patterns = ['/users/:userId'];

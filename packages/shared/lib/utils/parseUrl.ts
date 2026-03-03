@@ -1,4 +1,4 @@
-export const parseUrl = (url?: string, patterns: string[] = []) => {
+export const parseUrl = (url?: string, patterns: string[] = [], options: { includeQuery?: boolean } = {}) => {
   // 파라미터를 저장할 객체
   const params: Record<string, string> = {};
 
@@ -6,6 +6,8 @@ export const parseUrl = (url?: string, patterns: string[] = []) => {
   if (!url) {
     return params;
   }
+
+  const { includeQuery = true } = options;
 
   // URL 파싱하여 pathname, query 추출
   const parsedUrl = new URL(url);
@@ -72,6 +74,10 @@ export const parseUrl = (url?: string, patterns: string[] = []) => {
         break;
       }
     }
+  }
+
+  if (!includeQuery) {
+    return params;
   }
 
   // 쿼리스트링 파라미터를 병합

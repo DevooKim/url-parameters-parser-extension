@@ -12,7 +12,7 @@ import {
   Separator,
   useButtonClassName,
 } from '@extension/ui';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { ParsedItem } from './ParsedItem';
 
 const Popup = () => {
@@ -33,7 +33,18 @@ const Popup = () => {
   const url = useUrl();
   const patterns = option?.patterns || [];
 
-  const parsedUrl = parseUrl(url, patterns);
+  const pathParams = parseUrl(url, patterns, { includeQuery: false });
+  const queryParams = useMemo(() => {
+    if (!url) {
+      return {};
+    }
+
+    const parsedUrl = new URL(url);
+    return Object.fromEntries(parsedUrl.searchParams.entries());
+  }, [url]);
+
+  const hasPathParams = Object.keys(pathParams).length > 0;
+  const hasQueryParams = Object.keys(queryParams).length > 0;
 
   return (
     <Card className="w-[420px] p-5 shadow-none border-0 flex flex-col gap-4">
@@ -66,10 +77,24 @@ const Popup = () => {
         </code>
       </CardContent>
       <Separator />
-      <CardContent className="flex flex-col items-center justify-between gap-1 p-0">
-        {Object.entries(parsedUrl).map(([key, value]) => (
-          <ParsedItem key={key} item={{ key, value }} />
-        ))}
+      <CardContent className="flex flex-col items-center justify-between gap-3 p-0">
+        <div className="w-full">
+          <p className="text-xs font-semibold text-zinc-500 mb-1">Path Params</p>
+          {hasPathParams ? (
+            Object.entries(pathParams).map(([key, value]) => <ParsedItem key={key} item={{ key, value }} />)
+          ) : (
+            <p className="text-xs text-zinc-400">No path params</p>
+          )}
+        </div>
+
+        <div className="w-full">
+          <p className="text-xs font-semibold text-zinc-500 mb-1">Query Params</p>
+          {hasQueryParams ? (
+            Object.entries(queryParams).map(([key, value]) => <ParsedItem key={key} item={{ key, value }} />)
+          ) : (
+            <p className="text-xs text-zinc-400">No query params</p>
+          )}
+        </div>
       </CardContent>
     </Card>
   );
