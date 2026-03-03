@@ -170,12 +170,9 @@ const Popup = () => {
   return (
     <Card className="w-[420px] p-5 shadow-none border-0 flex flex-col gap-4">
       <CardContent className="flex flex-col items-center justify-between gap-2 p-0">
-        <Input
-          value={editableUrl}
-          onChange={event => setEditableUrl(event.target.value)}
-          onKeyDown={handleEnterToSend}
-          placeholder="URL을 입력하세요"
-        />
+        <div className="w-full rounded-md border border-input bg-muted/20 px-3 py-2">
+          <p className="text-sm break-all">{editableUrl}</p>
+        </div>
         <div className="flex items-center gap-2 w-full">
           <CopyButton
             value={editableUrl}
