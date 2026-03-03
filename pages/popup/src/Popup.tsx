@@ -14,6 +14,7 @@ import {
 } from '@extension/ui';
 import { useMemo, useState } from 'react';
 import { ParsedItem } from './ParsedItem';
+import { QueryParsedItem } from './QueryParsedItem';
 
 const Popup = () => {
   const settings = useStorage(settingStorage);
@@ -90,7 +91,7 @@ const Popup = () => {
         <div className="w-full">
           <p className="text-xs font-semibold text-zinc-500 mb-1">Query Params</p>
           {hasQueryParams ? (
-            Object.entries(queryParams).map(([key, value]) => <ParsedItem key={key} item={{ key, value }} />)
+            Object.entries(queryParams).map(([key, value]) => <QueryParsedItem key={key} item={{ key, value }} />)
           ) : (
             <p className="text-xs text-zinc-400">No query params</p>
           )}
