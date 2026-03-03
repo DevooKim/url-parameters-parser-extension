@@ -1,9 +1,11 @@
-import { parseUrl, useStorage, useUrl, withErrorBoundary, withSuspense } from '@extension/shared';
+import { useStorage, useUrl, withErrorBoundary, withSuspense } from '@extension/shared';
 import { latestOptionNameStorage, settingStorage } from '@extension/storage';
 import {
+  Button,
   Card,
   CardContent,
   CopyButton,
+  Input,
   Select,
   SelectContent,
   SelectItem,
@@ -12,9 +14,62 @@ import {
   Separator,
   useButtonClassName,
 } from '@extension/ui';
-import { useMemo, useState } from 'react';
-import { ParsedItem } from './ParsedItem';
-import { QueryParsedItem } from './QueryParsedItem';
+import { useEffect, useMemo, useState } from 'react';
+import type { KeyboardEvent } from 'react';
+
+type PathParamMeta = {
+  key: string;
+  value: string;
+  segmentIndex: number;
+};
+
+const getPathParamMeta = (url?: string, patterns: string[] = []): PathParamMeta[] => {
+  if (!url) {
+    return [];
+  }
+
+  const parsedUrl = new URL(url);
+  const pathSegments = decodeURI(parsedUrl.pathname).split('/').filter(Boolean);
+  const collected = new Map<string, PathParamMeta>();
+
+  for (const pattern of patterns) {
+    const patternSegments = pattern.split('/').filter(Boolean);
+
+    for (let i = 0; i <= pathSegments.length - patternSegments.length; i++) {
+      let matched = true;
+      const current: PathParamMeta[] = [];
+
+      for (let j = 0; j < patternSegments.length; j++) {
+        const patternSeg = patternSegments[j];
+        const pathSeg = pathSegments[i + j];
+
+        if (!pathSeg) {
+          matched = false;
+          break;
+        }
+
+        if (patternSeg.startsWith(':')) {
+          current.push({ key: patternSeg.substring(1), value: pathSeg, segmentIndex: i + j });
+          continue;
+        }
+
+        if (patternSeg !== pathSeg) {
+          matched = false;
+          break;
+        }
+      }
+
+      if (matched) {
+        current.forEach(item => {
+          collected.set(item.key, item);
+        });
+        break;
+      }
+    }
+  }
+
+  return [...collected.values()];
+};
 
 const Popup = () => {
   const settings = useStorage(settingStorage);
@@ -25,37 +80,102 @@ const Popup = () => {
   const { className: buttonClassName, handleSuccess, handleFail } = useButtonClassName();
 
   const option = settings.find(option => option.name === optionName);
+  const patterns = useMemo(() => option?.patterns ?? [], [option?.patterns]);
 
-  const handleOptionChange = (optionName: string) => {
-    setOptionName(optionName);
-    latestOptionNameStorage.set(optionName);
-  };
+  const currentUrl = useUrl();
+  const [editableUrl, setEditableUrl] = useState('');
 
-  const url = useUrl();
-  const patterns = option?.patterns || [];
+  useEffect(() => {
+    setEditableUrl(currentUrl);
+  }, [currentUrl]);
 
-  const pathParams = parseUrl(url, patterns, { includeQuery: false });
+  const pathParamMeta = useMemo(() => getPathParamMeta(editableUrl, patterns), [editableUrl, patterns]);
+
   const queryParams = useMemo(() => {
-    if (!url) {
+    if (!editableUrl) {
       return {};
     }
 
-    const parsedUrl = new URL(url);
+    const parsedUrl = new URL(editableUrl);
     return Object.fromEntries(parsedUrl.searchParams.entries());
-  }, [url]);
+  }, [editableUrl]);
 
-  const hasPathParams = Object.keys(pathParams).length > 0;
+  const hasPathParams = pathParamMeta.length > 0;
   const hasQueryParams = Object.keys(queryParams).length > 0;
+
+  const handleOptionChange = (newOptionName: string) => {
+    setOptionName(newOptionName);
+    latestOptionNameStorage.set(newOptionName);
+  };
+
+  const updatePathParam = (key: string, newValue: string) => {
+    if (!editableUrl) {
+      return;
+    }
+
+    const targetParam = pathParamMeta.find(param => param.key === key);
+    if (!targetParam) {
+      return;
+    }
+
+    const parsedUrl = new URL(editableUrl);
+    const pathSegments = decodeURI(parsedUrl.pathname).split('/').filter(Boolean);
+    pathSegments[targetParam.segmentIndex] = newValue;
+
+    parsedUrl.pathname = `/${pathSegments.map(segment => encodeURIComponent(segment)).join('/')}`;
+    setEditableUrl(parsedUrl.toString());
+  };
+
+  const updateQueryParam = (key: string, newValue: string) => {
+    if (!editableUrl) {
+      return;
+    }
+
+    const parsedUrl = new URL(editableUrl);
+    parsedUrl.searchParams.set(key, newValue);
+    setEditableUrl(parsedUrl.toString());
+  };
+
+  const sendUrl = async () => {
+    if (!editableUrl) {
+      return;
+    }
+
+    const [tab] = await chrome.tabs.query({ currentWindow: true, active: true });
+
+    if (tab?.id) {
+      await chrome.tabs.update(tab.id, { url: editableUrl });
+      window.close();
+    }
+  };
+
+  const handleEnterToSend = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      void sendUrl();
+    }
+  };
 
   return (
     <Card className="w-[420px] p-5 shadow-none border-0 flex flex-col gap-4">
-      <CardContent className="flex flex-col items-center justify-between gap-1 p-0">
-        <div className="w-full">
-          <p className="text-sm font-medium break-all">{url}</p>
+      <CardContent className="flex flex-col items-center justify-between gap-2 p-0">
+        <Input
+          value={editableUrl}
+          onChange={event => setEditableUrl(event.target.value)}
+          onKeyDown={handleEnterToSend}
+          placeholder="URL을 입력하세요"
+        />
+        <div className="flex items-center gap-2 w-full">
+          <CopyButton
+            value={editableUrl}
+            onSuccessCopy={handleSuccess}
+            onFailCopy={handleFail}
+            className={buttonClassName}>
+            복사하기
+          </CopyButton>
+          <Button onClick={() => void sendUrl()} className="ml-auto">
+            호출
+          </Button>
         </div>
-        <CopyButton value={url} onSuccessCopy={handleSuccess} onFailCopy={handleFail} className={buttonClassName}>
-          복사하기
-        </CopyButton>
       </CardContent>
       <Separator />
 
@@ -65,9 +185,9 @@ const Popup = () => {
             <SelectValue />
           </SelectTrigger>
           <SelectContent position="popper">
-            {settings.map(option => (
-              <SelectItem key={option.name} value={option.name}>
-                {option.name}
+            {settings.map(item => (
+              <SelectItem key={item.name} value={item.name}>
+                {item.name}
               </SelectItem>
             ))}
           </SelectContent>
@@ -82,7 +202,16 @@ const Popup = () => {
         <div className="w-full">
           <p className="text-xs font-semibold text-zinc-500 mb-1">Path Params</p>
           {hasPathParams ? (
-            Object.entries(pathParams).map(([key, value]) => <ParsedItem key={key} item={{ key, value }} />)
+            pathParamMeta.map(item => (
+              <div key={item.key} className="flex items-center gap-2 py-1">
+                <span className="text-xs text-zinc-500 w-20 shrink-0">{item.key}</span>
+                <Input
+                  value={item.value}
+                  onChange={event => updatePathParam(item.key, event.target.value)}
+                  onKeyDown={handleEnterToSend}
+                />
+              </div>
+            ))
           ) : (
             <p className="text-xs text-zinc-400">No path params</p>
           )}
@@ -91,7 +220,16 @@ const Popup = () => {
         <div className="w-full">
           <p className="text-xs font-semibold text-zinc-500 mb-1">Query Params</p>
           {hasQueryParams ? (
-            Object.entries(queryParams).map(([key, value]) => <QueryParsedItem key={key} item={{ key, value }} />)
+            Object.entries(queryParams).map(([key, value]) => (
+              <div key={key} className="flex items-center gap-2 py-1">
+                <span className="text-xs text-zinc-500 w-20 shrink-0">{key}</span>
+                <Input
+                  value={value}
+                  onChange={event => updateQueryParam(key, event.target.value)}
+                  onKeyDown={handleEnterToSend}
+                />
+              </div>
+            ))
           ) : (
             <p className="text-xs text-zinc-400">No query params</p>
           )}
