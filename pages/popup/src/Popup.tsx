@@ -23,6 +23,18 @@ type PathParamMeta = {
   segmentIndex: number;
 };
 
+const hasNoExplicitRootSlash = (url: string): boolean => /^https?:\/\/[^/?#]+(?:\?|#|$)/.test(url);
+
+const stringifyUrl = (parsedUrl: URL, previousUrl: string): string => {
+  const nextUrl = parsedUrl.toString();
+
+  if (parsedUrl.pathname === '/' && hasNoExplicitRootSlash(previousUrl)) {
+    return nextUrl.replace(/^(https?:\/\/[^/?#]+)\/(\?|#|$)/, '$1$2');
+  }
+
+  return nextUrl;
+};
+
 const getPathParamMeta = (url?: string, patterns: string[] = []): PathParamMeta[] => {
   if (!url) {
     return [];
@@ -123,7 +135,7 @@ const Popup = () => {
     pathSegments[targetParam.segmentIndex] = newValue;
 
     parsedUrl.pathname = `/${pathSegments.map(segment => encodeURIComponent(segment)).join('/')}`;
-    setEditableUrl(parsedUrl.toString());
+    setEditableUrl(stringifyUrl(parsedUrl, editableUrl));
   };
 
   const updateQueryParam = (key: string, newValue: string) => {
@@ -133,7 +145,7 @@ const Popup = () => {
 
     const parsedUrl = new URL(editableUrl);
     parsedUrl.searchParams.set(key, newValue);
-    setEditableUrl(parsedUrl.toString());
+    setEditableUrl(stringifyUrl(parsedUrl, editableUrl));
   };
 
   const sendUrl = async () => {
